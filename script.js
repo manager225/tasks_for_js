@@ -129,3 +129,55 @@ function diskriminant(){
     }
 }
 but.addEventListener('click', diskriminant)
+
+
+//Задача 5
+/*Дан инпут. В него вводится число. По потери фокуса сделайте так, чтобы в абзаце ниже начал тикать обратный отсчет, начиная с введенного числа. Когда отсчет дойдет до нуля - он должен закончится.*/
+let par = document.querySelector('#par')
+let inpt = document.querySelector('#inpt')
+let timerId;
+function func(){
+    par.innerHTML = inpt.value
+   timerId = setInterval(function (){
+       par.innerHTML = --par.innerHTML
+            if (par.innerHTML <= 0) {
+                clearInterval(timerId);
+            }
+    }, 1000)
+}
+inpt.addEventListener('blur', func)
+
+//Задача 6
+/*Дан абзац. Сделайте так, чтобы каждую секунду он менял свой цвет с красного на зеленый и наоборот.*/
+let par = document.querySelector('#par')
+par.style.fontSize = '100px'
+function func(){
+    setInterval(function (){
+        if(par.style.color == 'green'){
+            par.style.color = 'red'
+        } else {
+            par.style.color = 'green'
+        }
+    }, 1000)
+}
+par.addEventListener('click', func)
+
+
+//Задача 7
+/*Если выводить на экран каждую секунду текущий момент времени, то можно сделать тикающие часы. Реализуйте такие часики*/
+let par = document.querySelector('#par')
+function func(){
+    function addZero(num) {
+        if (num >= 0 && num <= 9) {
+            return '0' + num;
+        } else {
+            return num;
+        }
+    }
+    setInterval(function (){
+        let now = new Date()
+        par.innerHTML = addZero(now.getHours()) + ':' +
+            addZero(now.getMinutes()) + ':' + addZero(now.getSeconds())
+    }, 1000)
+}
+window.addEventListener('load', func)
