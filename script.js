@@ -181,3 +181,30 @@ function func(){
     }, 1000)
 }
 window.addEventListener('load', func)
+
+//Задача 8
+/*Даны 3 инпута, кнопка и абзац. В инпуты вводятся коэффициенты квадратного уравнения. По нажатию на кнопку найдите корни этого уравнения и выведите их в абзац.*/
+//ax2 + bx + c = 0
+let a = document.querySelector('#a')
+let b = document.querySelector('#b')
+let c = document.querySelector('#c')
+let par = document.querySelector('#par')
+let but = document.querySelector('#but')
+function diskriminant(){
+    let dis = ((Number(b.value))**2) - (4 * (Number(a.value)) * (Number(c.value)))
+    console.log(dis)
+    if (dis > 0 && a != 0){
+        let root1 = (-(Number(b.value)) + (Math.sqrt(dis))) / (2 * (Number(a.value)))
+        let root2 = (-(Number(b.value)) - (Math.sqrt(dis))) / (2 * (Number(a.value)))
+        par.innerHTML = root1 + ', ' + root2
+    } else if (dis == 0 && a != 0) {
+        let root3 = (-(Number(b.value)) + (Math.sqrt(dis))) / (2 * (Number(a.value)))
+        par.innerHTML = root3
+    } else if (dis < 0 && a != 0) {
+        par.innerHTML = 'корней нет'
+    } else {
+            par.innerHTML = 'уравнение не имеет решения, потому что a = 0'
+    }
+}
+but.addEventListener('click', diskriminant)
+
