@@ -117,15 +117,17 @@ let but = document.querySelector('#but')
 function diskriminant(){
     let dis = ((Number(b.value))**2) - (4 * (Number(a.value)) * (Number(c.value)))
     console.log(dis)
-    if (dis > 0){
+    if (dis > 0 && a != 0){
         let root1 = (-(Number(b.value)) + (Math.sqrt(dis))) / (2 * (Number(a.value)))
         let root2 = (-(Number(b.value)) - (Math.sqrt(dis))) / (2 * (Number(a.value)))
         par.innerHTML = root1 + ', ' + root2
-    } else if (dis == 0) {
+    } else if (dis == 0 && a != 0) {
         let root3 = (-(Number(b.value)) + (Math.sqrt(dis))) / (2 * (Number(a.value)))
         par.innerHTML = root3
-    } else if (dis < 0) {
+    } else if (dis < 0 && a != 0) {
         par.innerHTML = 'корней нет'
+    } else {
+        par.innerHTML = 'уравнение не имеет решения, потому что a = 0'
     }
 }
 but.addEventListener('click', diskriminant)
@@ -183,28 +185,24 @@ function func(){
 window.addEventListener('load', func)
 
 //Задача 8
-/*Даны 3 инпута, кнопка и абзац. В инпуты вводятся коэффициенты квадратного уравнения. По нажатию на кнопку найдите корни этого уравнения и выведите их в абзац.*/
-//ax2 + bx + c = 0
-let a = document.querySelector('#a')
-let b = document.querySelector('#b')
-let c = document.querySelector('#c')
+/*Дан абзац и две кнопки. Сделайте так, чтобы по нажатию на первую кнопку в абзаце начал тикать таймер от 1 до бесконечности, а по нажатию на вторую таймер останавливался.*/
+let start = document.querySelector('#start');
+let stop  = document.querySelector('#stop');
 let par = document.querySelector('#par')
-let but = document.querySelector('#but')
-function diskriminant(){
-    let dis = ((Number(b.value))**2) - (4 * (Number(a.value)) * (Number(c.value)))
-    console.log(dis)
-    if (dis > 0 && a != 0){
-        let root1 = (-(Number(b.value)) + (Math.sqrt(dis))) / (2 * (Number(a.value)))
-        let root2 = (-(Number(b.value)) - (Math.sqrt(dis))) / (2 * (Number(a.value)))
-        par.innerHTML = root1 + ', ' + root2
-    } else if (dis == 0 && a != 0) {
-        let root3 = (-(Number(b.value)) + (Math.sqrt(dis))) / (2 * (Number(a.value)))
-        par.innerHTML = root3
-    } else if (dis < 0 && a != 0) {
-        par.innerHTML = 'корней нет'
-    } else {
-            par.innerHTML = 'уравнение не имеет решения, потому что a = 0'
-    }
+let timerId; // сделаем переменную глобальной
+function func(){
+
+    timerId = setInterval(function() {
+        par.innerHTML = ++par.innerHTML
+        if (par.innerHTML <= 0) {
+            clearInterval(timerId);
+        }
+    }, 1000);
+    this.removeEventListener('click', func)
 }
-but.addEventListener('click', diskriminant)
+start.addEventListener('click', func);
+stop.addEventListener('click', function() {
+    clearInterval(timerId);
+    start.addEventListener('click', func)
+});
 
