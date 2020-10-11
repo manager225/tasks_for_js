@@ -206,3 +206,199 @@ stop.addEventListener('click', function() {
     start.addEventListener('click', func)
 });
 
+//Задача9
+//Дан массив. Выведите его элементы в виде списка ul.
+
+let arr = [1, 2, 3, 4, 5]
+let body = document.querySelector('body')
+let ul = document.createElement('ul')
+for(let elem of arr){
+    let li = document.createElement('li')
+    li.innerHTML = elem
+    ul.appendChild(li)
+}
+body.appendChild(ul)
+
+/////////////////////////////////////////////////
+//Задача10
+//Модифицируйте предыдущую задачу так, чтобы по клику на любую li в ней появлялся инпут, с помощью которого ее можно будет поредактировать.
+
+let arr = [1, 2, 3, 4, 5]
+let parent = document.querySelector('#list')
+let ul = document.createElement('ul')
+for(let elem of arr) {
+    let li = document.createElement('li')
+    li.innerHTML = elem
+    ul.appendChild(li)
+    li.addEventListener('click', function func(){
+        let input = document.createElement('input')
+        input.value = li.innerHTML;
+        li.innerHTML = '';
+        li.appendChild(input);
+        input.addEventListener('blur', function () {
+            li.innerHTML = this.value;
+            li.addEventListener('click', func);
+        })
+        li.removeEventListener('click', func)
+    })
+}
+parent.appendChild(ul)
+
+/////////////////////////////////////////////////
+//Задача11
+//Модифицируйте предыдущую задачу так, чтобы под списком был инпут, с помощью которого можно будет добавить новый элемент в конец списка ul. Сделайте так, чтобы новые li также можно было редактировать.
+
+let arr = [1, 2, 3, 4, 5]
+let parent = document.querySelector('#list')
+let ul = document.createElement('ul');
+let inputAdd = document.createElement('input');
+inputAdd.placeholder = 'добавить пункт';
+
+inputAdd.addEventListener('blur', function(){
+    let li = document.createElement('li');
+    li.innerHTML = inputAdd.value;
+    inputAdd.value = ''
+    li.addEventListener('click', createInput);
+    ul.appendChild(li);
+});
+
+for(let elem of arr)
+{
+    let li = document.createElement('li');
+    li.innerHTML = elem;
+    li.addEventListener('click', createInput);
+    ul.appendChild(li);
+}
+
+function createInput() {
+    let input = document.createElement('input');
+    input.value = this.innerHTML;
+    input.addEventListener('blur', ()=>{
+        this.innerHTML = input.value;
+        this.addEventListener('click', createInput);
+    })
+    this.innerHTML='';
+    this.appendChild(input);
+    this.removeEventListener('click', createInput);
+}
+
+parent.appendChild(ul);
+parent.appendChild(inputAdd);
+
+
+/////////////////////////////////////////////////
+//Задача12
+//Модифицируйте предыдущую задачу так, чтобы в конце каждой li стояла ссылка 'удалить', с помощью которой можно будет удалить эту li из ul.
+
+let arr = [1, 2, 3, 4, 5];
+let parent = document.querySelector('#list')
+let ul = document.createElement('ul');
+let inputAdd = document.createElement('input');
+inputAdd.placeholder = 'добавить пункт';
+
+inputAdd.addEventListener('blur', ()=> {
+    createLi(inputAdd.value);
+});
+
+for(let elem of arr) {
+    createLi(elem);
+}
+
+function createLi(elem) {
+    let li = document.createElement('li');
+    let span = document.createElement('span');
+    span.innerHTML = elem;
+    span.addEventListener('click', createInput);
+    li.appendChild(span);
+    let remove = document.createElement('a');
+    remove.innerHTML = 'удалить';
+    remove.href = '#';
+    remove.style.marginLeft = '10px'
+    remove.style.textDecoration = 'none'
+    li.appendChild(remove);
+    ul.appendChild(li);
+
+    remove.addEventListener('click', function() {
+        remove.parentElement.parentElement.removeChild(li);
+    });
+}
+
+function createInput() {
+    let input = document.createElement('input');
+    input.value = this.innerHTML;
+    input.addEventListener('blur', ()=>{
+        this.innerHTML = input.value;
+        this.addEventListener('click', createInput);
+    })
+    this.innerHTML='';
+    this.appendChild(input);
+    this.removeEventListener('click', createInput);
+}
+
+parent.appendChild(ul);
+parent.appendChild(inputAdd);
+
+/////////////////////////////////////////////////
+//Задача13
+//Модифицируйте предыдущую задачу так, чтобы в конце каждой li также стояла ссылка 'перечеркнуть', с помощью которой можно будет перечеркнуть текст данного тега li.
+
+let arr = [1, 2, 3, 4, 5];
+let parent = document.querySelector('#list')
+let ul = document.createElement('ul');
+let inputAdd = document.createElement('input');
+inputAdd.placeholder = 'добавить пункт';
+
+inputAdd.addEventListener('blur', ()=> {
+    createLi(inputAdd.value);
+});
+
+for(let elem of arr) {
+    createLi(elem);
+}
+
+function createLi(elem) {
+    let li = document.createElement('li');
+    let span = document.createElement('span');
+    span.innerHTML = elem;
+    span.addEventListener('click', createInput);
+    li.appendChild(span);
+
+    let remove = document.createElement('a');
+    remove.innerHTML = 'удалить';
+    remove.href = '#';
+    remove.style.marginLeft = '10px'
+    remove.style.textDecoration = 'none'
+    li.appendChild(remove);
+
+    let crossOut = document.createElement('a')
+    crossOut.innerHTML = 'перечеркнуть'
+    crossOut.href = '#'
+    crossOut.style.marginLeft = '10px'
+    crossOut.style.textDecoration = 'none'
+    li.appendChild(crossOut);
+
+    crossOut.addEventListener('click', function (){
+        span.classList.add('cross_out')
+    })
+
+    ul.appendChild(li);
+
+    remove.addEventListener('click', function() {
+        remove.parentElement.parentElement.removeChild(li);
+    });
+}
+
+function createInput() {
+    let input = document.createElement('input');
+    input.value = this.innerHTML;
+    input.addEventListener('blur', ()=>{
+        this.innerHTML = input.value;
+        this.addEventListener('click', createInput);
+    })
+    this.innerHTML='';
+    this.appendChild(input);
+    this.removeEventListener('click', createInput);
+}
+
+parent.appendChild(ul);
+parent.appendChild(inputAdd);
