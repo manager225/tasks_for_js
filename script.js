@@ -402,3 +402,435 @@ function createInput() {
 
 parent.appendChild(ul);
 parent.appendChild(inputAdd);
+
+/////////////////////////////////////////////////////////
+//Задача14
+//Дан следующий массив с работниками, выведите этих работников в HTML таблице.
+
+let employees = [
+    {name: 'employee1', age: 30, salary: 400},
+    {name: 'employee2', age: 31, salary: 500},
+    {name: 'employee3', age: 32, salary: 600},
+];
+let parent = document.querySelector('#parent')
+let table = document.createElement('table')
+for (let empl of employees) {
+    let tr = document.createElement('tr');
+
+    let td1 = document.createElement('td');
+    td1.innerHTML = empl.name;
+    tr.appendChild(td1);
+
+    let td2 = document.createElement('td');
+    td2.innerHTML = empl.age;
+    tr.appendChild(td2);
+
+    let td3 = document.createElement('td');
+    td3.innerHTML = empl.salary;
+    tr.appendChild(td3);
+
+    table.appendChild(tr);
+}
+parent.appendChild(table)
+
+/////////////////////////////////////////////////
+//Задача15
+//Добавьте ячейкам созданной таблицы возможность редактирования
+
+let employees = [
+    {name: 'employee1', age: 30, salary: 400},
+    {name: 'employee2', age: 31, salary: 500},
+    {name: 'employee3', age: 32, salary: 600},
+];
+let parent = document.querySelector('#parent')
+let table = document.createElement('table')
+function createInput(){
+    let input = document.createElement('input')
+        input.value = this.innerHTML;
+        this.innerHTML = '';
+        this.appendChild(input);
+        input.addEventListener('blur',  () =>{
+            this.innerHTML = input.value;
+            this.addEventListener('click', createInput);
+        })
+        this.removeEventListener('click', createInput)
+}
+for (let empl of employees) {
+    let tr = document.createElement('tr');
+
+    let td1 = document.createElement('td');
+    td1.innerHTML = empl.name;
+    tr.appendChild(td1);
+    td1.addEventListener('click', createInput)
+
+    let td2 = document.createElement('td');
+    td2.innerHTML = empl.age;
+    tr.appendChild(td2)
+    td2.addEventListener('click', createInput);
+
+    let td3 = document.createElement('td');
+    td3.innerHTML = empl.salary;
+    tr.appendChild(td3);
+    td3.addEventListener('click', createInput)
+
+    table.appendChild(tr);
+}
+parent.appendChild(table)
+
+/////////////////////////////////////////////////
+//Задача16
+//Добавьте в вашу таблицу новую колонку со ссылкой на удаления ряда из таблицы.
+
+let employees = [
+    {name: 'employee1', age: 30, salary: 400},
+    {name: 'employee2', age: 31, salary: 500},
+    {name: 'employee3', age: 32, salary: 600},
+];
+let parent = document.querySelector('#parent')
+let table = document.createElement('table')
+function createInput(){
+    let input = document.createElement('input')
+    input.value = this.innerHTML;
+    this.innerHTML = '';
+    this.appendChild(input);
+    input.addEventListener('blur',  () =>{
+        this.innerHTML = input.value;
+        this.addEventListener('click', createInput);
+    })
+    this.removeEventListener('click', createInput)
+}
+for (let empl of employees) {
+    let tr = document.createElement('tr');
+
+    let td1 = document.createElement('td');
+    td1.innerHTML = empl.name;
+    tr.appendChild(td1);
+    td1.addEventListener('click', createInput)
+
+    let td2 = document.createElement('td');
+    td2.innerHTML = empl.age;
+    tr.appendChild(td2)
+    td2.addEventListener('click', createInput);
+
+    let td3 = document.createElement('td');
+    td3.innerHTML = empl.salary;
+    tr.appendChild(td3);
+    td3.addEventListener('click', createInput)
+
+    let td4 = document.createElement('td');
+    let a = document.createElement('a');
+    a.innerHTML = 'Удалить';
+    a.href = '#';
+    td4.appendChild(a);
+    tr.appendChild(td4)
+
+    a.addEventListener('click', function(event) {
+        tr.parentElement.removeChild(tr);
+        event.preventDefault();
+    });
+
+    table.appendChild(tr);
+}
+
+parent.appendChild(table)
+
+/////////////////////////////////////////////////
+//Задача17
+//Сделайте под таблицей 3 инпута и кнопку для добавление нового работника. Пусть в инпуты вводятся имя, возраст и зарплата, и по нажатию на кнопку новый работник добавляется в таблицу. Реализуйте редактирование ячеек для вновь добавленных работников.
+
+let employees = [
+    {name: 'employee1', age: 30, salary: 400},
+    {name: 'employee2', age: 31, salary: 500},
+    {name: 'employee3', age: 32, salary: 600},
+];
+let parent = document.querySelector('#parent')
+
+let table = document.createElement('table');
+table.id = 'table';
+for(let empl of employees) {
+    addNewEmp(empl.name,empl.age,empl.salary);
+}
+
+parent.appendChild(table);
+
+let tds = document.querySelectorAll('#table td');
+for (let td of tds) {
+    td.addEventListener('click', function func(){
+        if(!td.classList.contains('del')) {
+            let input = document.createElement('input');
+            input.value = td.innerHTML;
+            td.innerHTML = '';
+            td.appendChild(input);
+
+            input.addEventListener('blur', ()=>{
+                td.innerHTML = input.value;
+                td.addEventListener('click', func);
+            });
+            td.removeEventListener('click', func);
+        }
+    });
+}
+
+let inputName = document.createElement('input');
+let inputAge = document.createElement('input');
+let inputSalary = document.createElement('input');
+let button = document.createElement('button');
+button.innerHTML = 'Добавить';
+
+button.addEventListener('click', ()=> addNewEmp(inputName.value, inputAge.value, inputSalary.value));
+
+inputName.placeholder = 'Введите имя';
+inputAge.placeholder = 'Введите возраст';
+inputSalary.placeholder = 'Введите зарплату';
+
+function addNewEmp(name,age,salary) {
+
+    let tr = document.createElement('tr');
+
+    let td1 = document.createElement('td');
+    td1.innerHTML = name;
+    tr.appendChild(td1);
+
+    let td2 = document.createElement('td');
+    td2.innerHTML = age;
+    tr.appendChild(td2);
+
+    let td3 = document.createElement('td');
+    td3.innerHTML = salary;
+    tr.appendChild(td3);
+
+    let td4 = document.createElement('td');
+    let remove = document.createElement('a');
+    remove.innerHTML = 'удалить';
+    remove.href = '#';
+    remove.addEventListener('click', function(event){
+        event.preventDefault();
+        tr.parentElement.removeChild(tr)});
+    td4.appendChild(remove);
+    tr.appendChild(td4);
+
+    table.appendChild(tr);
+}
+
+parent.appendChild(inputName);
+parent.appendChild(inputAge);
+parent.appendChild(inputSalary);
+parent.appendChild(button);
+
+/////////////////////////////////////////////////
+//Задача18
+//Дан следующий массив с работниками, выведите на экран каждого работника в своем теге li тега ul.
+
+let parent = document.querySelector('#parent')
+let employees = [
+    {name: 'employee1', age: 30, salary: 400},
+    {name: 'employee2', age: 31, salary: 500},
+    {name: 'employee3', age: 32, salary: 600},
+];
+
+for (let empl of employees){
+    let ul = document.createElement('ul')
+    let li1 = document.createElement('li')
+    li1.innerHTML = empl.name
+    ul.appendChild(li1)
+
+    let li2 = document.createElement('li')
+    li2.innerHTML = empl.age
+    ul.appendChild(li2)
+
+    let li3 = document.createElement('li')
+    li3.innerHTML = empl.age
+    ul.appendChild(li3)
+
+    parent.appendChild(ul)
+}
+
+/////////////////////////////////////////////////
+//Задача19
+//Сделайте так, чтобы по клику на имя, возраст или зарплату работника появлялся инпут для редактирования этого поля.
+
+let parent = document.querySelector('#parent')
+let employees = [
+    {name: 'employee1', age: 30, salary: 400},
+    {name: 'employee2', age: 31, salary: 500},
+    {name: 'employee3', age: 32, salary: 600},
+    {name: 'employee4', age: 33, salary: 700},
+];
+
+for (let empl of employees){
+    let ul = document.createElement('ul')
+    let li1 = document.createElement('li')
+    li1.innerHTML = empl.name
+    ul.appendChild(li1)
+
+    let li2 = document.createElement('li')
+    li2.innerHTML = empl.age
+    ul.appendChild(li2)
+
+    let li3 = document.createElement('li')
+    li3.innerHTML = empl.salary
+    ul.appendChild(li3)
+
+    parent.appendChild(ul)
+}
+
+let lis = document.querySelectorAll('li')
+for(let li of lis){
+    li.addEventListener('click', createInput)
+}
+
+function createInput(){
+    let input = document.createElement('input')
+    input.value = this.innerHTML
+    this.innerHTML = ''
+    this.appendChild(input)
+    input.addEventListener('blur',()=>{
+        this.innerHTML = input.value
+        this.addEventListener('click', createInput);
+
+    })
+    this.removeEventListener('click', createInput);
+}
+
+/////////////////////////////////////////////////
+//Задача20
+//Добавьте в конец каждого тега li ссылку на удаление этого li из списка.
+
+let parent = document.querySelector('#parent')
+let employees = [
+    {name: 'employee1', age: 30, salary: 400},
+    {name: 'employee2', age: 31, salary: 500},
+    {name: 'employee3', age: 32, salary: 600},
+    {name: 'employee4', age: 33, salary: 700},
+];
+
+for (let empl of employees){
+    let ul = document.createElement('ul')
+    let li1 = document.createElement('li')
+    li1.innerHTML = empl.name
+    ul.appendChild(li1)
+
+    let li2 = document.createElement('li')
+    li2.innerHTML = empl.age
+    ul.appendChild(li2)
+
+    let li3 = document.createElement('li')
+    li3.innerHTML = empl.salary
+    ul.appendChild(li3)
+
+    let remove = document.createElement('a');
+    remove.innerHTML = 'удалить';
+    remove.href = '#';
+    remove.style.textDecoration = 'none'
+    ul.appendChild(remove);
+
+        remove.addEventListener('click', function() {
+        ul.parentElement.removeChild(ul);
+    });
+
+    parent.appendChild(ul)
+}
+
+let lis = document.querySelectorAll('li')
+for(let li of lis){
+    li.addEventListener('click', createInput)
+}
+
+function createInput(){
+    let input = document.createElement('input')
+    input.value = this.innerHTML
+    this.innerHTML = ''
+    this.appendChild(input)
+    input.addEventListener('blur',()=>{
+        this.innerHTML = input.value
+        this.addEventListener('click', createInput);
+
+    })
+    this.removeEventListener('click', createInput);
+}
+
+/////////////////////////////////////////////////
+//Задача21
+//Под списком сделайте форму для добавление нового работника.
+
+let parent = document.querySelector('#parent')
+let parent2 = document.querySelector('#parent2')
+let employees = [
+    {name: 'employee1', age: 30, salary: 400},
+    {name: 'employee2', age: 31, salary: 500},
+    {name: 'employee3', age: 32, salary: 600},
+    {name: 'employee4', age: 33, salary: 700},
+];
+
+for (let empl of employees){
+    addEmployee(empl.name, empl.age, empl.salary)
+}
+
+function createInputEdit(){
+    let input = document.createElement('input')
+    input.value = this.innerHTML
+    this.innerHTML = ''
+    this.appendChild(input)
+    input.addEventListener('blur',()=>{
+        this.innerHTML = input.value
+        this.addEventListener('click', createInputEdit);
+
+    })
+    this.removeEventListener('click', createInputEdit);
+}
+
+let inputName = document.createElement('input');
+inputName.placeholder = 'Name';
+
+let inputAge = document.createElement('input');
+inputAge.placeholder = 'Age';
+
+let inputSalary = document.createElement('input');
+inputSalary.placeholder = 'Salary';
+
+let but = document.createElement('button')
+but.innerHTML = 'Add employee'
+
+but.addEventListener('click', function (){
+    addEmployee(inputName.value,inputAge.value,inputSalary.value);
+    inputName.value = '';
+    inputAge.value = '';
+    inputSalary.value = '';
+})
+
+parent2.appendChild(inputName)
+parent2.appendChild(inputAge)
+parent2.appendChild(inputSalary)
+parent2.appendChild(but)
+
+function addEmployee(name, age, salary){
+    let ul = document.createElement('ul')
+    let li1 = document.createElement('li')
+    li1.innerHTML = name
+
+    let li2 = document.createElement('li')
+    li2.innerHTML = age
+
+    let li3 = document.createElement('li')
+    li3.innerHTML = salary
+
+    let remove = document.createElement('a');
+    remove.innerHTML = 'удалить';
+    remove.href = '#';
+    remove.style.textDecoration = 'none'
+
+    remove.addEventListener('click', function() {
+    ul.parentElement.removeChild(ul);
+    });
+
+    ul.appendChild(li1)
+    ul.appendChild(li2)
+    ul.appendChild(li3)
+    ul.appendChild(remove);
+    parent.appendChild(ul)
+}
+
+let lis = document.querySelectorAll('li')
+for(let li of lis){
+    li.addEventListener('click', createInputEdit)
+}

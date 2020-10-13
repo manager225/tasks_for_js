@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6566c3d6-70ec-48c4-b90d-77fbef0e50c7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,6 +26,7 @@
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager">
     <configuration name="script.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/script.js" working-dir="$PROJECT_DIR$">
@@ -52,6 +52,8 @@
       <workItem from="1602184479761" duration="857000" />
       <workItem from="1602269853414" duration="1097000" />
       <workItem from="1602270963532" duration="509000" />
+      <workItem from="1602438795600" duration="393000" />
+      <workItem from="1602605631202" duration="345000" />
     </task>
     <servers />
   </component>
