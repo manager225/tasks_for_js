@@ -834,3 +834,58 @@ let lis = document.querySelectorAll('li')
 for(let li of lis){
     li.addEventListener('click', createInputEdit)
 }
+
+/////////////////////////////////////////////////
+//Задача22
+//let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+// С помощью комбинаций функций createTableByArr, normalizeArr и convertArr создайте из приведенного массива таблицу размером 5 колонок. Добавьте созданную таблицу в какой-нибудь див.
+
+let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+let cols = 5;
+
+function convertArr(arr,cols) {
+    let resArr = [];
+    let rows = arr.length/cols;
+    for(let k = 0; k < rows; k++) {
+        let subArr = [];
+        for(let i = 0; i < cols; i++) {
+            let x = arr.shift();
+            if(x != undefined)
+                subArr.push(x);
+        }
+        resArr.push(subArr);
+    }
+    return resArr;
+}
+
+function normalizeArr(arr, cols, aggregate)
+{
+    let lastSubArr = arr.pop();
+    for(let i = 0; i < cols; i++)
+    {
+        if(lastSubArr[i] == undefined)
+            lastSubArr.push(aggregate);
+    }
+    arr.push(lastSubArr);
+    return arr;
+}
+
+function createTableByArr(arr) {
+    let table = document.createElement('table');
+    for (let el of arr) {
+        let tr = document.createElement('tr')
+        for (let subel of el) {
+            let td = document.createElement('td')
+            td.innerHTML = subel
+            tr.appendChild(td)
+        }
+        table.appendChild(tr)
+    }
+    return table
+}
+let twoDimArr = convertArr(arr, cols);
+let normalTwoDimArr = normalizeArr(twoDimArr, cols, '-');
+
+let table = createTableByArr(normalTwoDimArr);
+let div = document.querySelector('#elem');
+div.appendChild(table);
