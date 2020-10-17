@@ -889,3 +889,167 @@ let normalTwoDimArr = normalizeArr(twoDimArr, cols, '-');
 let table = createTableByArr(normalTwoDimArr);
 let div = document.querySelector('#elem');
 div.appendChild(table);
+
+
+//Задача23
+// Сумма колонок HTML таблицы через CSS селектор
+
+let button = document.querySelector('#button')
+
+button.addEventListener('click', function (){
+    let table = document.querySelector('#table')
+
+    let trs = table.querySelectorAll('tr')
+    let colsNum = trs[0].querySelectorAll('td').length
+
+    let resultTr = document.createElement('tr')
+    table.appendChild(resultTr)
+
+    for (let i = 0; i < colsNum; i++){
+        let tdNumber = i+1;
+        let tds = table.querySelectorAll('td:nth-child('+ tdNumber+ ')')
+        let sum = 0;
+
+        for (let j = 0; j < tds.length; j++){
+            sum += Number(tds[j].innerHTML)
+        }
+
+        let resultTd = document.createElement('td')
+        resultTd.innerHTML = sum;
+        resultTr.appendChild(resultTd)
+    }
+})
+
+/////////////////Анализатор текста на JavaScript////////////////////////////////
+//Задача24
+//Сделайте так, чтобы по потери фокуса под текстареа вывелось сообщение о том, сколько в этом тексте слов, сколько в тексте символов, сколько в тексте символов за вычетом пробелов, и также вывелось сообщение о процентном содержании каждого символа в тексте. Сделайте 4 чекбокса, которые будут регулировать, какие именно параметры показывать.
+
+let textarea = document.querySelector('#textarea');
+let par = document.querySelector('#par')
+
+let checkbox1 = document.getElementById("checkbox1");
+let checkbox2 = document.getElementById("checkbox2");
+let checkbox3 = document.getElementById("checkbox3");
+let checkbox4 = document.getElementById("checkbox4");
+
+checkbox1.addEventListener('click', () => par.innerHTML = '' );
+checkbox2.addEventListener('click', () => par.innerHTML = '' );
+checkbox3.addEventListener('click', () => par.innerHTML = '' );
+checkbox4.addEventListener('click', () => par.innerHTML = '' );
+textarea.addEventListener('click', () => par.innerHTML = '' );
+
+textarea.addEventListener('blur', function (){
+
+    if (checkbox1.checked){
+        par.innerHTML += 'Введено слов: '+ textarea.value.split(' ').length
+    }
+
+    if (checkbox2.checked){
+        par.innerHTML += '<br />'+ 'Введено символов: ' + textarea.value.split('').length
+    }
+
+    if (checkbox3.checked){
+        par.innerHTML += '<br />' + 'Введено символов без пробела: ' + textarea.value.replace(/ /g, "").length
+    }
+
+    if (checkbox4.checked){
+        let allSymbols = "abcdefghijklmnopqrstuvwxyz0123456789йцукенгшщзхъфывапролджэячсмитьбю`-,.=~@#$%^&*()_+;'][\!:ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮQWERTYUIOPASDFGHJKLZXCVBNM";
+        let symbolsStatistic = '';
+        let symbols = textarea.value.replace(/ /g, "").split("");
+        for(let symbol of allSymbols) {
+            if(symbols.indexOf(symbol) != -1)
+                symbolsStatistic += '<br>' + getSymbolPercent(symbols,symbol)+'<br>';
+        }
+        function getSymbolPercent(arr,symbol) {
+            return  symbol + ': ' + Math.round(arr.filter(letter => letter === symbol).length / arr.length * 100) + ' %';
+        }
+        par.innerHTML += '<br />' + 'Процентное соотношение каждого символа ' + symbolsStatistic
+    }
+})
+
+/////////////////////////////////////////////////
+//Задача25
+//Игра угадай число на JavaScript
+//В этой игре компьютер загадывает число от 1 до 100. В инпут на экране игрок вводит число от 1 до 100, пытаясь угадать, что же загадал компьютер.
+//
+// Если игрок ввел число, меньше загаданного, компьютер должен написать 'введите число побольше', а если введено больше загаданного, то, соответственно, компьютер должен написать 'введите число поменьше'.
+
+let par = document.querySelector('#par')
+let input = document.querySelector('#input')
+let num;
+
+function getRandomInt() {
+    num =  Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+}
+getRandomInt()
+
+function func(){
+    if (Number(input.value) > num){
+        par.innerHTML = 'Введите число поменьше'
+    } else if(Number(input.value) < num){
+        par.innerHTML = 'Введите число побольше'
+    } else {
+        par.innerHTML = 'Поздравляю! Вы угадали число'
+    }
+}
+
+input.addEventListener('blur', func)
+
+
+/////////////////////////////////////////////////
+//Задача26
+//Игра угадай ячейку на JavaScript
+// Давайте теперь реализуем игру угадай ячейку. В этой игре будет дана таблица 10 на 10. Компьютер случайным образом запоминает 10 ячеек из этой таблицы. Игроку нужно кликать на клетки пока он не найдет все загаданные компьютером клетки.
+
+let div = document.querySelector('#elem');
+let array = [];
+
+function shuffle(){
+    let j, temp;
+    let arr = []
+    for(let num = 1; num <= 100; num++){
+        arr.push(num)
+    }
+    for(let i = 0; i < 10; i++){
+        j = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+        temp = arr[j];
+        arr[j] = arr[i];
+        arr[i] = temp;
+        array.push(temp)
+    }
+}
+shuffle()
+
+function createTable(rows, cols) {
+    let table = document.createElement('table');
+    let count = 1
+    for (let k = 0; k < rows; k++) {
+            let tr = document.createElement('tr')
+        for (let j = 0; j < cols; j++) {
+            let td = document.createElement('td')
+            td.innerHTML = count++
+
+            tr.appendChild(td)
+
+            td.addEventListener('click', function (){
+                for (let el of array) {
+                    if (td.innerHTML == el){
+                        td.classList.add('color2')
+                    } else {
+                        td.classList.add('color1')
+                    }
+                }
+
+                let greenTds = document.querySelectorAll('table td.color2')
+                if (greenTds && greenTds.length == 10){
+                    let p = document.createElement('p')
+                    p.innerHTML = 'Вы нашли все ячейки'
+                    div.appendChild(p)
+                }
+            })
+        }
+    table.appendChild(tr)
+    }
+    return table
+}
+div.appendChild(createTable(10, 10));
