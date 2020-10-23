@@ -932,16 +932,16 @@ let checkbox2 = document.getElementById("checkbox2");
 let checkbox3 = document.getElementById("checkbox3");
 let checkbox4 = document.getElementById("checkbox4");
 
-checkbox1.addEventListener('click', () => par.innerHTML = '' );
-checkbox2.addEventListener('click', () => par.innerHTML = '' );
-checkbox3.addEventListener('click', () => par.innerHTML = '' );
-checkbox4.addEventListener('click', () => par.innerHTML = '' );
-textarea.addEventListener('click', () => par.innerHTML = '' );
+checkbox1.addEventListener('click', function() {par.innerHTML = ''} );
+checkbox2.addEventListener('click', function() {par.innerHTML = ''} );
+checkbox3.addEventListener('click', function() {par.innerHTML = ''} );
+checkbox4.addEventListener('click', function() {par.innerHTML = ''} );
+// textarea.addEventListener('click', function() {par.innerHTML = ''} );
 
 textarea.addEventListener('blur', function (){
 
     if (checkbox1.checked){
-        par.innerHTML += 'Введено слов: '+ textarea.value.split(' ').length
+        par.innerHTML += 'Введено слов: '+ textarea.value.trim().split(' ').length
     }
 
     if (checkbox2.checked){
@@ -1053,3 +1053,96 @@ function createTable(rows, cols) {
     return table
 }
 div.appendChild(createTable(10, 10));
+
+
+/////////////////////////////////////////////////
+//Задача27
+//Реализуйте экранную клавиатуру. На ней должны быть кнопочки со всеми буквами и цифрами клавиатуры компьютера. Кликая мышкой по этим кнопочкам мы сможем вводить данные, например, при неработающей клавиатуре. Пусть эта клавиатура будет привязана к какому-нибудь инпуту, то есть кликая по ней, мы будем вводить данные в этот инпут. Сделайте на вашей клавиатуре кнопку Caps Lock, которая будет делать так, чтобы все буквы переводились в верхний регистр.
+
+let keys = document.querySelectorAll('div.key:not(.backspace):not(.tab):not(.capslock):not(.space)');
+let backspace = document.querySelector('.backspace')
+let tab = document.querySelector('.tab')
+let capslock = document.querySelector('.capslock')
+let space = document.querySelector('.space')
+let inpt = document.querySelector('#result')
+
+backspace.addEventListener('click', function (){
+    inpt.value = inpt.value.slice(0, -1);
+})
+
+tab.addEventListener('click', function (){
+    inpt.value += '    '
+})
+
+capslock.addEventListener('click', function (){
+    for(let key of keys) {
+        if(key.firstChild.innerHTML.toUpperCase() == key.firstChild.innerHTML)
+            key.innerHTML = key.innerHTML.toLowerCase();
+        else
+            key.innerHTML = key.innerHTML.toUpperCase();
+    }
+})
+
+space.addEventListener('click', function (){
+    inpt.value += ' '
+})
+
+
+    for (let key of keys){
+        key.addEventListener('click', function (){
+                let spans = key.querySelectorAll("span")
+                for (let span of spans) {
+                    inpt.value += span.innerHTML
+                }
+        })
+    }
+
+/////////////////////////////////////////////////
+//Задача28
+//Реализуйте калькулятор. Он будет работать как обычный классический калькулятор: у вас будет инпут, а под ним кнопочки с цифрами и знаками операций. По нажатию на цифры они должны появляться в инпуте. По нажатию на знак операции число из инпута должно исчезать. После этого при вводе следующего числа в инпут и нажатия на знак равно в инпуте должен появится результат операции. Сделайте кнопку для памяти. Пусть она запоминает результат какой-нибудь операции. Сделайте кнопку для вставки в инпут результата из памяти.
+
+let calc = document.querySelector('#calc');
+let inputVal = document.querySelector('#inputVal');
+let checkbox = document.querySelector('#checkbox');
+let res = 0;
+
+let signs = [
+    '1', '2', '3', '+',
+    '4', '5', '6', '-',
+    '7', '8', '9', '/',
+    '0', '=', '.', 'c'
+];
+
+for(let sign of signs){
+    let btn = document.createElement('button')
+    btn.innerHTML = sign;
+    btn.classList.add('btn')
+    calc.appendChild(btn)
+}
+
+let butns = document.querySelectorAll('button')
+for (let butn of butns){
+    butn.addEventListener('click', function (e){
+        if (e.target.innerHTML == 'c'){
+            inputVal.innerHTML = '0'
+        }
+        else if (e.target.innerHTML == '='){
+            if (checkbox.checked){
+                inputVal.innerHTML = eval(inputVal.innerHTML);
+                res = eval(inputVal.innerHTML)
+            } else {
+                inputVal.innerHTML = eval(inputVal.innerHTML);
+            }
+        }
+        else if (inputVal.innerHTML == '0'){
+            inputVal.innerHTML = e.target.innerHTML;
+        }
+        else if (e.target.innerHTML == 'Вывести результат из памяти') {
+            inputVal.innerHTML += res
+        }
+
+        else {
+            inputVal.innerHTML += e.target.innerHTML;
+        }
+    })
+}
