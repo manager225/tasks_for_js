@@ -936,7 +936,7 @@ checkbox1.addEventListener('click', function() {par.innerHTML = ''} );
 checkbox2.addEventListener('click', function() {par.innerHTML = ''} );
 checkbox3.addEventListener('click', function() {par.innerHTML = ''} );
 checkbox4.addEventListener('click', function() {par.innerHTML = ''} );
-// textarea.addEventListener('click', function() {par.innerHTML = ''} );
+textarea.addEventListener('click', function() {par.innerHTML = ''} );
 
 textarea.addEventListener('blur', function (){
 
